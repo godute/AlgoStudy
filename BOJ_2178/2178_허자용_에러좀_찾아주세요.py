@@ -27,6 +27,7 @@ def go(n, m, dist):
     # right
     if m != M - 1 and not(visited[n][m + 1]) and land[n][m + 1] == '1':
         push(n, m + 1, dist + 1)
+    return
 
 
 [N, M] = list(map(int, input().split()))
