@@ -5,6 +5,7 @@
 using namespace std;
 
 enum{NONE,PATH,VISITED};
+//어디로 갈까?
 int dir_x[4] = { 1,0,-1,0 };
 int dir_y[4] = { 0,1,0,-1 };
 
@@ -17,40 +18,52 @@ int bfs_find_path(int x, int y)
 
 	queue<pair<int, int> > Q;
 	pair<int, int> p(x, y);
+	pair<int,int> tmp;
+        pair<int, int> atom;
 	
+	//일단 하나 넣고 
 	Q.push(p);
+        maze[p.first][p.second] = VISITED;
+	
 
 	while (!Q.empty())
 	{
 		int size = Q.size();
+		
+		//이 while 문이 끝나면 depth가 1 증가 
 		while (size--)
 		{
-			pair<int, int> atom = Q.front();
+			//Q에서 하나 꺼냅니다. 
+			atom = Q.front();
 			Q.pop();
 			
-
+			//출구에 도착 ! cnt 1증가해서 반환 ^_^ 
 			if ((atom.first == N) && (atom.second == M))
 				return cnt+1;
 
 			for (int i = 0; i < 4; i++)
 			{
-				pair<int,int> tmp = atom;
-				
+				//tmp 에 원래 것을 저장하고 방향을 바꾸면서 고고 
+				tmp = atom;
+			
 				tmp.first += dir_x[i];
 				tmp.second += dir_y[i];
 				
 				int tmp_x = tmp.first;
 				int tmp_y = tmp.second;
-
+				
+				
+				//범위 밖이면 다시 for문으로 돌아가용 
 				if (tmp_x < 1 || tmp_y < 1 || tmp_x > N || tmp_y > M)
 					continue;
+				//길이 아니여도 다시  for문으로 고고 
 				else if (maze[tmp_x][tmp_y] != PATH)
 					continue;
 				else
 				{
+					//방문 코드 삽입 주의 *^^* 
 					Q.push(tmp);
-					maze[atom.first][atom.second] = VISITED;
-
+                    			maze[tmp.first][tmp.second] = VISITED;
 				}
 			}
 		}
@@ -60,39 +73,10 @@ int bfs_find_path(int x, int y)
 	return cnt;
 }
 
-/*
-void dfs_find_path(int x, int y)
-{
-	if (x < 1 || y < 1 || x > N || y > M)
-		return;
-
-	if (maze[x][y] != PATH)     
-		return;
-	
-	if ((x == N) && (y == M))
-		return;
-
-	maze[x][y] = VISITED;
-	cnt++;
-	int tmp_x, tmp_y;
-	for (int i = 0; i < 4; i++)
-	{
-		tmp_x = x;
-		tmp_y = y;
-		
-		tmp_x += dir_x[i];
-		tmp_y += dir_y[i];
-		dfs_find_path(tmp_x, tmp_y);
-	}
-}
-*/
 int main()
 {
-	scanf("%d", &N);
-	fflush(stdin);
-	scanf("%d", &M);
+	scanf("%d%d", &N,&M);
 
-	printf("%d\n%d\n", N,M);
 	for (int i = 1; i < N + 1; i++)
 		for (int j = 1; j < M + 1; j++)
 			scanf("%1d", &maze[i][j]);
