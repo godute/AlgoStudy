@@ -18,7 +18,6 @@ for i in range(T):
         if not(Node.count):
             head = Node(pushvalue)
             tail = head
-
         else:
             newest = Node(pushvalue)
             newest.setprev(tail)
@@ -36,13 +35,16 @@ for i in range(T):
 
     elif text == "size":
         print(Node.count)
+        
     elif text == "empty":
         print(int(not((Node.count))))
+        
     elif text == "front":
         if not(Node.count):
             print(-1)
         else:
             print(head.value)
+            
     elif text == "back":
         if not(Node.count):
             print(-1)
