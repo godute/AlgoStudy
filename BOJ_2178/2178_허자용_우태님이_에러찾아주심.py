@@ -22,7 +22,7 @@ def go(n, m, dist):
     if n != N - 1 and not(visited[n + 1][m]) and land[n + 1][m] == '1':
         push(n + 1, m, dist + 1)
     # left
-    if m and not(visited[n][m - 1] and land[n][m - 1]) == '1':
+    if m and not(visited[n][m - 1]) and land[n][m - 1] == '1':
         push(n, m - 1, dist + 1)
     # right
     if m != M - 1 and not(visited[n][m + 1]) and land[n][m + 1] == '1':
