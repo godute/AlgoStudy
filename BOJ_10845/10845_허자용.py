@@ -37,7 +37,7 @@ for i in range(T):
         print(Node.count)
         
     elif text == "empty":
-        print(int(not((Node.count))))
+        print(int(not(Node.count)))
         
     elif text == "front":
         if not(Node.count):
