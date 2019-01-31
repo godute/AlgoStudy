@@ -1,78 +1,50 @@
-import itertools
-import copy
 import collections
+import copy
 
 def go(i,j):
     if visit[i][j]=='0':
-        visit[i][j]='2'
+        visit[i][j]='1'
         q.append([depth+1,i,j])
         
 def boundary(i,j):
     return i>=0 and j>=0 and i<=n-1 and j<=m-1
 
-def countzero(flat):
+def countzero(box):
     count=0
-    for i in flat:
+    for i in box:
         count+=i.count('0')
     return count
         
-def zero(flat):
-    for i in flat:
+def zero(box):
+    for i in box:
         if '0' in i:
             return 0
     return 1
 
-def where(data,string):
-    return [i for i, e in enumerate(data) if e == string]
-
-def reshape(data,n,m):
-    new=[]
-    for i in range(m):
-        small=data[i*m:i*m+n]
-        new.append(small)
-    return new
-
-def countzero(data):
-    count=0
-    for i in data:
-         count+=i.count("0")
-    return count
-
-n,m=map(int,input().split())
-flat=[]
-for i in range(n):
-    flat+=input().split()
-s=flat
-ss=where(s,'0')
+# main BFS
+m,n=map(int,input().split())
 i_indicies=[]
 j_indicies=[]
-i_indicies+=[i//m for i in ss]
-j_indicies+=[i%m for i in ss]
-s=flat
-ss=where(s,'1')
-i1_indicies=[]
-j1_indicies=[]
-i1_indicies+=[i//m for i in ss]
-j1_indicies+=[i%m for i in ss]
-s=flat
-ss=where(s,'2')
-i2_indicies=[]
-j2_indicies=[]
-i2_indicies+=[i//m for i in ss]
-j2_indicies+=[i%m for i in ss]
-possible_walls=list(itertools.permutations(zip(i_indicies,j_indicies),3))
-len(possible_walls)
-sumlist=[]
-max_val=0
-for i in possible_walls:
-    visit=copy.copy(reshape(flat,n,m))
-    q=collections.deque()
-    for j in range(len(i2_indicies)):
-        q.append([0,i2_indicies[j],j2_indicies[j]])
-    direction=[[1,0],[-1,0],[0,1],[0,-1]]
-    visit[i[0][0]][i[0][1]]=1
-    visit[i[1][0]][i[1][1]]=1
-    visit[i[2][0]][i[2][1]]=1
+box=[]
+count=-1
+for i in range(n):
+    tom=input().split()
+    box.append(tom)
+    for i in tom:
+        count+=1
+        if i=='1':
+            i_indicies+=[count//m]
+            j_indicies+=[count%m]
+            
+visit=copy.copy(box)
+q=collections.deque()
+for i in range(len(i_indicies)):
+    q.append([0,i_indicies[i],j_indicies[i]])
+direction=[[1,0],[-1,0],[0,1],[0,-1]]
+depth=0
+if countzero(visit)==0:
+    print(depth)
+else:
     while (len(q)):
         item=q.popleft()
         depth=item[0]
@@ -81,7 +53,7 @@ for i in possible_walls:
         for d in direction:
             if boundary(i+d[0],j+d[1]):
                 go(i+d[0],j+d[1])
-    mm=countzero(visit)
-    if mm>max_val:
-        max_val=mm
-print(max_val)
+    if zero(visit):
+        print(depth)
+    else:
+        print(-1)
