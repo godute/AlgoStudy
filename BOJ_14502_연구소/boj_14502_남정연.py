@@ -28,7 +28,7 @@ def where(data,string):
 def reshape(data,n,m):
     new=[]
     for i in range(m):
-        small=data[i*m:i*m+n]
+        small=data[i*m:(i+1)*m]
         new.append(small)
     return new
 
@@ -43,6 +43,7 @@ flat=[]
 for i in range(n):
     flat+=input().split()
 s=flat
+
 ss=where(s,'0')
 i_indicies=[]
 j_indicies=[]
@@ -60,7 +61,7 @@ i2_indicies=[]
 j2_indicies=[]
 i2_indicies+=[i//m for i in ss]
 j2_indicies+=[i%m for i in ss]
-possible_walls=list(itertools.permutations(zip(i_indicies,j_indicies),3))
+possible_walls=list(itertools.combinations(zip(i_indicies,j_indicies),3))
 len(possible_walls)
 sumlist=[]
 max_val=0
@@ -70,9 +71,9 @@ for i in possible_walls:
     for j in range(len(i2_indicies)):
         q.append([0,i2_indicies[j],j2_indicies[j]])
     direction=[[1,0],[-1,0],[0,1],[0,-1]]
-    visit[i[0][0]][i[0][1]]=1
-    visit[i[1][0]][i[1][1]]=1
-    visit[i[2][0]][i[2][1]]=1
+    visit[i[0][0]][i[0][1]]='1'
+    visit[i[1][0]][i[1][1]]='1'
+    visit[i[2][0]][i[2][1]]='1'
     while (len(q)):
         item=q.popleft()
         depth=item[0]
