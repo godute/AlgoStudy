@@ -2,6 +2,7 @@ import itertools
 import copy
 import collections
 
+
 def go(i,j):
     if visit[i][j]=='0':
         visit[i][j]='2'
@@ -22,15 +23,15 @@ def zero(flat):
             return 0
     return 1
 
-def where(data,string):
-    return [i for i, e in enumerate(data) if e == string]
 
-def reshape(data,n,m):
-    new=[]
-    for i in range(m):
-        small=data[i*m:(i+1)*m]
-        new.append(small)
-    return new
+def where2d(data,string):
+    row=0;   
+    result=[]
+    for d in data:
+        result+=[[row,i] for i, e in enumerate(d) if e == string]
+        row+=1
+    return result
+
 
 def countzero(data):
     count=0
@@ -41,35 +42,20 @@ def countzero(data):
 n,m=map(int,input().split())
 flat=[]
 for i in range(n):
-    flat+=input().split()
-s=flat
+    flat+=[input().split()]
+    
+index_0=where2d(flat,'0')
+index_2=where2d(flat,'2')
 
-ss=where(s,'0')
-i_indicies=[]
-j_indicies=[]
-i_indicies+=[i//m for i in ss]
-j_indicies+=[i%m for i in ss]
-s=flat
-ss=where(s,'1')
-i1_indicies=[]
-j1_indicies=[]
-i1_indicies+=[i//m for i in ss]
-j1_indicies+=[i%m for i in ss]
-s=flat
-ss=where(s,'2')
-i2_indicies=[]
-j2_indicies=[]
-i2_indicies+=[i//m for i in ss]
-j2_indicies+=[i%m for i in ss]
-possible_walls=list(itertools.combinations(zip(i_indicies,j_indicies),3))
-len(possible_walls)
+possible_walls=itertools.combinations(index_0,3)
 sumlist=[]
 max_val=0
+
 for i in possible_walls:
-    visit=copy.copy(reshape(flat,n,m))
+    visit=copy.deepcopy(flat)
     q=collections.deque()
-    for j in range(len(i2_indicies)):
-        q.append([0,i2_indicies[j],j2_indicies[j]])
+    for h in range(len(index_2)):
+        q.append([0,index_2[h][0],index_2[h][1]])
     direction=[[1,0],[-1,0],[0,1],[0,-1]]
     visit[i[0][0]][i[0][1]]='1'
     visit[i[1][0]][i[1][1]]='1'
@@ -84,5 +70,5 @@ for i in possible_walls:
                 go(i+d[0],j+d[1])
     mm=countzero(visit)
     if mm>max_val:
-        max_val=mm
+        max_val=mm 
 print(max_val)
