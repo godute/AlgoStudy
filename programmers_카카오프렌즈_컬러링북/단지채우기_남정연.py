@@ -13,6 +13,7 @@ N=int(input())
 village=[]
 for i in range(N):
     village+=[' '.join(input()).split()] #하기 전에 '12345'되는 걸 '1','2','3','4','5'로 바꾸는 작업 string은 immutable해서 그랬음..
+    #지금 생각해보니 그냥 village+=[list(input())] 해도 되는듯..
     
 direction=[[1,0],[0,1],[-1,0],[0,-1]] #driection
 def DFS(i,j): #DFS를 썼습니다
