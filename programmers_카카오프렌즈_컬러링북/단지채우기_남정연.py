@@ -1,7 +1,7 @@
 def boundary(i,j):
     return i>=0 and i<=(N-1) and j>=0 and j<=(N-1)
 
-def where2d(data,string): #원하는 string이 어디있는지 이차배열에서 찾아주는 함수 만듬 (i,j)형태의 리스트 반환
+def where2d(data,string): #원하는 string이 어디있는지 이차배열에서 찾아주는 함수 만듦 (i,j)형태의 리스트 반환
     row=0;   
     result=[]
     for d in data:
