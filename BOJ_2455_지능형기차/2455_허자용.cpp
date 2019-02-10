@@ -2,6 +2,8 @@
 
 using namespace std;
 
+// meaningless line
+
 int main() {
 	int hopon, hopoff;
     int max_n = 0;
