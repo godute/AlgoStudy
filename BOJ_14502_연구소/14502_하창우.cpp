@@ -1,9 +1,9 @@
-
-
 #include <stdio.h>
 #include <queue>
 
 using namespace std;
+
+
 
 int dr[4] = {1,0,-1,0};
 int dc[4] = {0,1,0,-1};
@@ -22,6 +22,7 @@ bool visited_c[10][10] = {0, };
 int n_safe = 0;
 int n_virus = 0;
 int n_safe_ans;
+//바이러스가 점령한다?? 
 int count_safe = 0;
 int count_safe_min = 100;
 
@@ -37,12 +38,14 @@ void bfs(){
             visited_c[i][j] = false;
         }
     }
+
     loc_virus_c = loc_virus;
     while(!loc_virus_c.empty()){
         
         int now_virus_row = loc_virus_c.front().first;
         int now_virus_col = loc_virus_c.front().second;
-        loc_virus_c.pop();
+        
+		loc_virus_c.pop();
         que.push(make_pair(now_virus_row,now_virus_col));
         
         while(!que.empty()){
@@ -61,7 +64,7 @@ void bfs(){
                 if(nxt_row <= N && nxt_row >= 1 && nxt_col <= M && nxt_col >= 1){
                     if(mat[nxt_row][nxt_col] == 0 && visited_c[nxt_row][nxt_col] == false){
                         visited_c[nxt_row][nxt_col] = true;
-                        count_safe = count_safe + 1;
+                        count_safe = count_safe + 1;// 바이러스가 점령한 영역 
                         que.push(make_pair(nxt_row,nxt_col));
                         
                     }
@@ -81,10 +84,12 @@ void dfs(int now, int cnt){
         
         }
     }
+
     else {
         for(int i = now; i < N*M; i++){
-            int nxt_row = (i/M) + 1;
-            int nxt_col = (i%M) + 1;
+            int nxt_row = (i / M) + 1;
+            int nxt_col = (i % M) + 1;
+
             if (mat[nxt_row][nxt_col] == 0){
                 mat[nxt_row][nxt_col] = 1;
                 dfs(i + 1, cnt + 1);
