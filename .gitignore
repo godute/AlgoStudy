@@ -2,3 +2,4 @@
 /.recommenders/
 .idea
 .ipynb_checkpoints
+*/__init__.py
